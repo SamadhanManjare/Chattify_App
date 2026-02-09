@@ -3,13 +3,13 @@ import express from 'express';
 
 const app = express();
 
-app.get('/auth,/api,/signup', (req, res) => {
+app.get('/api/auth/signup', (req, res) => {
     res.send('Signup endpoint');
 })
-app.get('/auth,/api,/login', (req, res) => {
+app.get('/api/auth/login', (req, res) => {
     res.send('Login endpoint');
 })
-app.get('/auth,/api,/logout', (req, res) => {
+app.get('/api/auth/logout', (req, res) => {
     res.send('Logout endpoint');
 })
 
