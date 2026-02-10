@@ -1,6 +1,9 @@
 import User from "../models/User.js";
 import bcrypt from 'bcryptjs';
 import { generateToken } from "../lib/Utils.js";
+import { sendWelcomeEmail } from "../email/emailHandler.js";
+import { ENV } from "../lib/env.js";
+
 
 export const signup = async (req, res) => {
     
@@ -9,6 +12,7 @@ export const signup = async (req, res) => {
     try {
         // Here you would typically add code to save the user to the database
         // For now, we'll just return a success message
+
         if(!fullname || !email || !password) {
             return res.status(400).json({ message: 'All fields are required' });
         }
@@ -39,6 +43,12 @@ export const signup = async (req, res) => {
             const savedUser = await newUser.save();
             generateToken(savedUser._id, res);
 
+             try{
+                await sendWelcomeEmail(savedUser.fullname, ENV.CLIENT_URL, savedUser.email); 
+             }catch(error){
+                console.error("Error sending welcome email:", error);
+             }
+
 
              return res.status(201).json({ 
                
@@ -46,13 +56,17 @@ export const signup = async (req, res) => {
                 fullname: newUser.fullname,
                 email: newUser.email,
                 profilePic: newUser.profilePic,
-             });
+             })
+
+           
+
+
         }else{
-            return res.status(500).json({ message: 'Error creating user' });
+            return res.status(400).json({ message: 'Error creating user' });
         }
 
     } catch (error) {
         console.error("Error during signup:", error);
-        res.status(500).json({ message: 'Email Already Exists' });
+        res.status(500).json({ message: 'Internal server error' });
     }
 }
