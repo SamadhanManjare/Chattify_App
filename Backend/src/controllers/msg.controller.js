@@ -16,16 +16,21 @@ export const getAllContacts = async (req, res) => {
 export const getMessagesByUserId = async (req, res) => {
 
     try {
-        const loggedInUserId = req.user._id;
-        const otherUserId = req.params.userId;
-        const loggedInUser = await User.findById(loggedInUserId);
-        const otherUser = await User.findById(otherUserId);
+        const myId = req.user._id;
+        const {userId: otherUserId} = req.params;
+        
+        const messages = await Message.find({
+            $or: [
+                { sender: myId, receiver: otherUserId },
+                { sender: otherUserId, receiver: myId }
+            ]
+        });
 
-        if (!loggedInUser || !otherUser) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
+        res.status(200).json(messages);
     } catch (error) {
+        console.error("Error fetching messages:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
         
     }
 }
+
