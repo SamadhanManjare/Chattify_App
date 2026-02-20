@@ -1,4 +1,6 @@
 import User from "../models/User.js";
+import Message from "../models/messages.js";
+import cloudinary from "../lib/cloudinary.js";
 
 
 export const getAllContacts = async (req, res) => {
@@ -17,15 +19,18 @@ export const getMessagesByUserId = async (req, res) => {
 
     try {
         const myId = req.user._id;
-        const {userId: otherUserId} = req.params;
+        const {id: otherUserId} = req.params;
+        
+        
         
         const messages = await Message.find({
             $or: [
-                { sender: myId, receiver: otherUserId },
-                { sender: otherUserId, receiver: myId }
+                { senderId: myId, receiverId: otherUserId },
+                { senderId: otherUserId, receiverId: myId }
             ]
         });
 
+        
         res.status(200).json(messages);
     } catch (error) {
         console.error("Error fetching messages:", error);
@@ -36,9 +41,17 @@ export const getMessagesByUserId = async (req, res) => {
 
 export const sendMessages = async (req, res) => {
     try {
+        console.log("Request Body:", req.body);
+        console.log("Request Params:", req.params);
+        console.log("Request Headers:", req.headers);
+        
         const {text, image} = req.body;
         const {id : receiverId} = req.params;
         const senderId = req.user._id;
+
+        if (!text && !image) {
+            return res.status(400).json({ error: 'Either text or image is required' });
+        }
 
         let imageUrl;
         if (image){
