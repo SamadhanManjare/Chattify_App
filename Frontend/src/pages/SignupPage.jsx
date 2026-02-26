@@ -3,6 +3,7 @@ import useAuthStore  from '../store/useAuthStore'
 import { useState } from 'react';
 import BorderAnimatedContainer from '../components/BorderAnimatedContainer';
 import { MessageCircleIcon } from '@heroicons/react/24/outline';
+import { UserIcon } from 'lucide-react';
 
 function Signup() {
 
@@ -26,7 +27,24 @@ function Signup() {
                 <p className=' text-slate-300'>Signup to start chatting with your friends!</p>
               </div>
               {/* form */}
-              <form action=""></form>
+              <form onSubmit={HandleSubmit} className="space-y-6">
+                <div>
+                  <label className='auth-input-label'>Full Name</label>
+                  <div className='relative'>
+                    <UserIcon className='auth-input-ican'/>
+                    <input
+                      type="text"
+                      value={formData.fullname}
+                      onChange={(e) => setFormData({...formData, fullname: e.target.value})}
+                      className='input'
+                      placeholder='John Doe'
+                    />
+                  </div>
+                </div>
+                  
+                
+
+              </form>
             </div>
              </div>
         </BorderAnimatedContainer>
