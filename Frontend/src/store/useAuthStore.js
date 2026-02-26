@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { create } from 'zustand';
 import axiosInstance from '../lib/axios.js';
-import { signup } from '../../../Backend/src/controllers/auth.controller.js';
 import toast from 'react-hot-toast';
 
 const useAuthStore = create((set) => ({
@@ -39,4 +38,5 @@ const useAuthStore = create((set) => ({
         }
     }
 }));
+
 export default useAuthStore;
