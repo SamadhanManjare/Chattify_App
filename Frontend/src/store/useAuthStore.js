@@ -2,11 +2,13 @@ import axios from 'axios';
 import { create } from 'zustand';
 import axiosInstance from '../lib/axios.js';
 import toast from 'react-hot-toast';
+import { login } from '../../../Backend/src/controllers/auth.controller.js';
 
 const useAuthStore = create((set) => ({
     authUser: null,
     isCheckingAuth: true,
     isSigningUp: false,
+    isLoggingIn: false,
 
     checkAuth: async () => {
         try {
@@ -36,7 +38,20 @@ const useAuthStore = create((set) => ({
         }finally{
             set({isSigningUp: false});
         }
+    },
+    login : async (formData) => {
+        set({isLoggingIn: true});
+        try {
+            const res = await axiosInstance.post('/auth/login', data);
+            set({ authUser: res.data });
+            toast.success("Login successful!");
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Login failed. Please try again.");
+        }finally{
+            set({isLoggingIn: false});
+        }
     }
+
 }));
 
 export default useAuthStore;
