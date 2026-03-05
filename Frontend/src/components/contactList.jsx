@@ -4,9 +4,10 @@ import UsersLoadingSkeleton from "./UsersLoadingSkeleton";
 import { useAuthStore } from "../store/useAuthStore";
 
 function ContactList() {
+    // Get the necessary state and actions from the chat store and auth store
   const { getAllContacts, allContacts, setSelectedUser, isUsersLoading } = useChatStore();
   const { onlineUsers } = useAuthStore();
-
+    // Fetch the contacts when the component mounts
   useEffect(() => {
     getAllContacts();
   }, [getAllContacts]);
@@ -14,6 +15,7 @@ function ContactList() {
   if (isUsersLoading) return <UsersLoadingSkeleton />;
 
   return (
+    // Render the list of contacts, showing their online status and allowing the user to select a contact to chat with
     <>
       {allContacts.map((contact) => (
         <div
