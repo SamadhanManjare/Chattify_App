@@ -1,7 +1,7 @@
 import { useChatStore } from "../store/useChatStore";
 
 import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
-import ProfileHeader from "../components/ProfileHeader";
+import ProfileHeader from "../components/ProfileHeadeer";
 import ActiveTabSwitch from "../components/ActiveTabSwitch";
 import ChatsList from "../components/ChatsList";
 import ContactList from "../components/contactList";

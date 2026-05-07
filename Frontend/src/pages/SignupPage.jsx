@@ -105,6 +105,7 @@ function SignUpPage() {
                   alt="People using mobile devices"
                   className="w-full h-auto object-contain"
                 />
+               
                 <div className="mt-6 text-center">
                   <h3 className="text-xl font-medium text-cyan-400">Start Your Journey Today</h3>
 
