@@ -39,7 +39,7 @@ const useAuthStore = create((set) => ({
             set({isSigningUp: false});
         }
     },
-    
+    // login function
     login : async (formData) => {
         set({isLoggingIn: true});
         try {
